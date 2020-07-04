@@ -2,14 +2,14 @@
 title:  "Conservative two-stage group testing"
 author: "Matthew Aldridge"
 date:   "13/04/2020"
-output: html_document
+output: github_document
 ---
 
 ## Functions
 
 The bound based in the FKG inequality:
 
-```{r, echo = FALSE}
+```{r}
 FKG <- function(p, w) {
   q <- 1 - p
   -w * log(1 - q^(w-1))
@@ -42,7 +42,7 @@ MyRatev <- function(pvec) {
 
 Binary entropy:
 
-```{r, echo = FALSE}
+```{r}
 Entropy <- function(p) {
   p * log2(1 / p) + (1 - p) * log2(1 / (1 - p))
 }
@@ -53,7 +53,7 @@ Entropy <- function(p) {
 
 Dorfman:
 
-```{r, echo = FALSE}
+```{r}
 N <- 1000
 
 ADorfAR <- function(p) {
@@ -73,7 +73,7 @@ ADorfRate <- function(p) {
 
 Constant tests-per-item and items-per-test, following the work of Broder & Kumar of Google:
 
-```{r, echo = FALSE}
+```{r}
 
 AGoogAR <- function(p) {
   q <- 1 - p
@@ -118,7 +118,7 @@ kGoogRate <- function(p, s) {
 
 Constant tests-per-item only:
 
-```{r, warning = FALSE, echo = FALSE}
+```{r, warning = FALSE}
 UsFunc <- function(s, rr, pp) rr / s + pp + (1-pp)*(1 - exp(-pp*s))^rr
 
 
@@ -146,7 +146,7 @@ AUsRate <- function(p) {
 
 Bernoulli:
 
-```{r, echo = FALSE}
+```{r}
 COMPAR <- function(p) {
   pmin(p * (1 + exp(1) * log((1 - p) / p)), 1)
 }
@@ -154,12 +154,6 @@ COMPAR <- function(p) {
 COMPRate <- function(p) Entropy(p)/COMPAR(p)
 ```
 
-
-```{r, echo = FALSE}
-CCWAR <- function(p) {
-  
-}
-```
 
 # Pictures
 
@@ -175,7 +169,7 @@ Let's draw some pictures!
 
 
 
-```{r, echo = FALSE, cache = FALSE, warning = FALSE}
+```{r, cache = TRUE, warning = FALSE}
 curve(Entropy, n = 1001, from = 0, to = 0.5,
       col="grey", ylim = c(0,1), xlab = "prevalence, p", ylab = "aspect ratio, E[T]/n", lty = 3, lwd = 2)
 curve(COMPAR, add = TRUE, n = 1001, from = 0, to = 1/(exp(1) + 1), col = "red", lwd = 2)
@@ -196,7 +190,7 @@ title("Expected group tests per item")
 
 
 
-```{r, echo = FALSE, cache = TRUE, warning = FALSE}
+```{r, cache = TRUE, warning = FALSE}
 curve(x-x+1, n = 1001, from = 0, to = 0.5,
       col="grey", ylim = c(0, 1), xlab = "prevalence, p", ylab = "rate, nH(p)/E[T]", lty = 3, lwd = 1)
 curve(COMPRate, from = 0, to = 1/(exp(1) + 1), add = TRUE, n = 1001, col = "red", lwd = 2)
@@ -215,7 +209,7 @@ title("Group testing rate")
 ```
 
 
-```{r, echo = FALSE, cache = TRUE, warning = FALSE}
+```{r, cache = TRUE, warning = FALSE}
 curve(x-x+1, n = 1001, from = 0, to = 0.3,
       col="grey", ylim = c(0.7, 0.9), xlab = "prevalence, p", ylab = "rate, nH(p)/E[T]", lty = 3, lwd = 1)
 curve(COMPRate, from = 0, to = 1/(exp(1) + 1), add = TRUE, n = 1001, col = "red", lwd = 2)
